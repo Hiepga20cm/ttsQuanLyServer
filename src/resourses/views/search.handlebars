@@ -1,5 +1,5 @@
 <div class="mt-10" style="margin-left: 60px;">
-    <form method="post" action="/search1">
+    <form method="get" action="/search">
         <div class="form-group">
             <label for="name">Từ Khóa</label>
             <input type="text" name="name" class="form-control" id="name" placeholder="Nhập từ khóa">
@@ -59,3 +59,64 @@
         </table>
     </div>
 </div>
+<div class="modal" tabindex="-1" id="delete-server-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xóa Server</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có thực sự muốn xóa Server?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button id="btn-delete-server" type="button" class="btn btn-danger">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="POST" name="delete-server-form"></form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var id;
+        var btnDeleteServer = document.getElementById('btn-delete-server');
+        var deleteForm = document.forms['delete-server-form'];
+        //var checkboxAll = $('#checkbox-all')//tạo biến để script các hoạt động cho cái nút đấy;
+        //var serverItemCheckbox = $('input[name:"serverIds[]"]');
+
+        $('#delete-server-modal').on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget); // Button that triggered the modal
+            id = button.data('id'); // Extract info from data-* attributes
+
+        });
+
+
+
+        //var btnDeleteServer = document.getElementById('btn-delete-server');
+        btnDeleteServer.onclick = function () {
+            deleteForm.action = '/server/' + id + '?_method=DELETE';
+            deleteForm.submit();
+        }
+
+
+        // check all changed
+        //checkboxAll.change(function () {
+        //var isCheckAll = $(this).prop('checked');
+        //console.log(isCheckAll);
+        //courseItemCheckbox.prop('checked', isCheckAll);
+        // console.log($(this).prop('checked'));
+        //        });
+
+
+        //      courseItemCheckbox.change(function () {
+        //        var isCheckAll = courseItemCheckbox.length === $('input[name:"courseIds[]"]:checked').length;
+        //console.log(checkboxAll);
+        //  });
+    });
+</script>

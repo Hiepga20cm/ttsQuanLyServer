@@ -7,10 +7,13 @@ const handlebars = require("express-handlebars");//
 const methodOverride = require('method-override')//
 const path = require('path')//
 const route = require('./router');//
+const cookieParser = require('cookie-parser')
+
 
 app.use(morgan('combined'))
 app.use(methodOverride('_method'));
 app.use(express.json());
+app.use(cookieParser())
 
 app.engine('handlebars', handlebars.engine({ extname: 'handlebars' }));
 app.set('view engine', 'handlebars');

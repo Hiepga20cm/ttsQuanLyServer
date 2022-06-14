@@ -5,7 +5,7 @@ const { mutipleMongooseToObject } = require('../../ultill/mongooes');
 const { update } = require('../model/Server');
 const res = require('express/lib/response');
 const req = require('express/lib/request');
-const { status } = require('express/lib/response');
+const { status, cookie } = require('express/lib/response');
 const { query } = require('express');
 
 class SiteController {
@@ -20,15 +20,12 @@ class SiteController {
     }
     //[get]/search
     search(req, res, next) {
-        Server.find({})
+        const { name } = req.query
+        Server.find({ name: name })//name đầu là name trong model
             .then(server => res.render('search', {
                 server: mutipleMongooseToObject(server)
             }))
             .catch(next)
-    }
-
-    //[post]/search1
-    search1(req, res, next) {
 
     }
 
@@ -45,6 +42,7 @@ class SiteController {
         }, (err, user) => {
             if (err) {
                 res.status(404).json(err)
+
             } else {
                 const token = jwt.sign(
                     {
@@ -53,16 +51,26 @@ class SiteController {
                     },
                     "12345678",
                     {
-                        expiresIn: "24h",
+                        expiresIn: 10000,
                     }
                 );
-                res.status(200).json({
-                    message: "Successfuly",
-                    token: token,
-                    username: user.username,
-                });
+                // res.status(200).json({
+                //     message: "Successfuly",
+                //     token: token,
+                //     username: user.username,
+                // });
+                res.cookie('token', token);
+                //console.log(req.cookies)
+                res.redirect('/');
             }
         })
+    }
+
+    //[get]/logout
+    logout(req,res,next){
+        res.clearCookie('token');
+        console.log("Cookie cleared");
+        res.redirect('/login1')
     }
 }
 

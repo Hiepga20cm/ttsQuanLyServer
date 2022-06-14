@@ -14,7 +14,7 @@ router.patch('/:id/restore', serverController.restore);
 router.delete('/:id', serverController.destroy);
 router.delete('/:id/deleteindatabase', serverController.deleteindatabase);
 router.get('/:name', serverController.show);
-router.get('/', serverController.home);
+//router.get('/', serverController.home);
 
 
 module.exports = router;

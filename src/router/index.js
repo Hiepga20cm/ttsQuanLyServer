@@ -5,12 +5,13 @@ const { model } = require('mongoose');
 const siteRouter = require('./site');
 const serverRouter = require('./server');
 const meRouter = require('./me');
+const authMiddleware = require('../app/middleware/auth')
 
 
 function route(app) {
-    //app.use('/new', newRouter);
-    app.use('/server', serverRouter);
-    app.use('/me', meRouter);
+    //app.use('/new', newRouter);zzz
+    app.use('/server',authMiddleware.requireAuth, serverRouter);
+    app.use('/me',authMiddleware.requireAuth, meRouter);
     app.use('/', siteRouter);
 }
 
